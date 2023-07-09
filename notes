@@ -1,0 +1,2 @@
+if you want to use import statements then add the following to your package.json file
+"type":"module"
