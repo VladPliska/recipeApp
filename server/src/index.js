@@ -2,11 +2,22 @@ const express= require("express");
 const bodyParser=require('body-parser');
 const mongoose=require('mongoose');
 const cors=require('cors');
+const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
+//const chalk = require('chalk').default;
+
 
 const dotenv=require('dotenv');
 dotenv.config();
 
 const app=express();
+
+//for swagger documentation
+const swaggerUi = require("swagger-ui-express");
+const YAML=require('yamljs');
+const swaggerDocument = YAML.load("./swagger.yaml");
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 //middlewares
@@ -14,14 +25,28 @@ app.use(cors()); //to allow cross origin requests
 app.use(express.json()); // Parse JSON bodies for API endpoints
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies for HTML form submissions
 app.use(bodyParser.json()); // Parse JSON bodies for API endpoints
-app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies for HTML form submissions
+// app.use(bodyParser.urlencoded({ extended: true })); // for old versions of express
+app.use(cookieParser());  
+app.use(fileUpload({ useTempFiles: true }));
+app.use(morgan("tiny"));
+
+
+// Define custom colors using chalk for morgan logs
+// app.use(morgan((tokens, req, res) => {
+//     const method = tokens.method(req, res);
+//     const url = tokens.url(req, res);
+//     const status = chalk.keyword('green')(tokens.status(req, res));
+//     const responseTime = chalk.keyword('cyan')(tokens['response-time'](req, res) + ' ms');
+//     return `${method} ${url} ${status} ${responseTime}`;
+//   }));
+  
 
 
 //routes
 const userRoutes=require("./routes/userRoute.js");
-app.use("/auth",userRoutes);
+app.use("/api/v1",userRoutes);
 const recipeRoutes=require("./routes/recipeRoute.js");
-app.use("/api",recipeRoutes);
+app.use("/api/v1",recipeRoutes);
 
 
 const port=process.env.PORT || 7000;

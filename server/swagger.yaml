@@ -1,0 +1,68 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Food recipe app" 
+securityDefinitions:
+  BasicAuth:
+    type: basic
+paths:
+  /signup:
+    post:
+      summary: "Create a new user"
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: user
+          description: "User object"
+          required: true
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+      responses:
+        200:
+          description: "User created successfully"
+  /signout:
+    post:
+      summary: "Sign out with username and password"
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: credentials
+          description: "User credentials"
+          required: true
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+      responses:
+        200:
+          description: "Sign out successful"
+  /login:
+    post:
+      summary: "Authenticate user with username and password"
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: credentials
+          description: "User credentials"
+          required: true
+          schema:
+            type: object
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+      responses:
+        200:
+          description: "Authentication successful"

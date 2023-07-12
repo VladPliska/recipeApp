@@ -1,88 +1,65 @@
 const UsersModel = require("../models/userModel.js");
+const bigPromise = require("../middlewares/bigPromise.js");
+const CustomError = require("../utils/customErrors.js");
+const cookieToken = require("../utils/cookieToken.js");
 require('dotenv').config();
 
 const JWT = require("jsonwebtoken");
 const bcyrpt = require("bcrypt");
 
-const express=require("express");
-const mongoose=require("mongoose");
 
 //--------------------------------------------------------------------------------------------------------------------------------
 
 
-//_______signUp controller_______
-exports.signUp = async (req, res) => {
-  const { username, password } = req.body;  //get username and password from req.body
-  const user = await UsersModel.findOne({ username });
-
-  //if user exists (based on username)
-  if (user) {
-    return res.json({ message: "User already exists" });
-  }
-  //if not then save newUser in DB, create new user with the help of model  //and add hashed password in DB
-  const hashedPassword = await bcyrpt.hash(password, 10);
-  const newUser = new UsersModel({ username, password: hashedPassword });
-  await newUser.save();
-  res.json({ message: "New user saved in DB" });
-};
+//_______signup controller_______ 
+// exports.signup=BigPromise(async()=>{})
+exports.signup=bigPromise(async(req,res,next)=>{
+    const {name, email, password} =req.body;
+    if(!email || !password || !name){
+        return next(new CustomError("Please provide email, name & password",400));
+    }
+    const user=await UsersModel.create({name,email,password });
+    cookieToken(user,res); //create cookie and send response after successful signup
+})
 
 
 //--------------------------------------------------------------------------------------------------------------------------------
 
 //_____Login/signIn controller_______
-exports.signIn = async (req, res) => {
-    const{username,password}=req.body;
-    const user=await UsersModel.findOne({username});
-    //if user not present, username not matched with any username in DB
-    if(!user){
-        return res.json({message:"user does not exists in DB"});
-    }
-    //checked hashed password present in db with hashed password of currently entered plain password
-    const isValidPassword=await bcyrpt.compare(password, user.password);
-    if (!isValidPassword) {
-        return res
-          .status(400)
-          .json({ message: "Username or password is incorrect" });
-      }
-      //create JWT token, sign JWT token(sign some data)
-      const token=JWT.sign( {id : user._id} , process.env.SECRET );
-      res.json({token, userId:user._id});
-};
+//login 
+exports.login=bigPromise(async(req,res,next)=>{
+  const{email,password}=req.body;
+  if(!email || !password){
+      return next(new CustomError("Please provide email & password",400));
+  }
+  //grab user from db -> user
+  //as we have designed schema select:false we have to provide +password explicitely
+  const user = await UsersModel.findOne({ email }).select("+password");
+
+  //if user not present in db
+  if (!user) {
+      return next(new CustomError("You are not registered in the db", 400));
+  }
+  //now, user present in db, so check pass with the help of methods in userModel
+  const isPasswordCorrect=await user.comparePassword(password);
+  if(!isPasswordCorrect){
+      return next(new CustomError("Invalid email or password",401));
+  }
+  //if pass is correct, then generate token
+  cookieToken(user,res);
+})
 
 
 //--------------------------------------------------------------------------------------------------------------------------------
-
-
-// exports.verifyToken = (req, res, next) => {
-//   const authHeader = req.headers.authorization;
-//   if (authHeader) {
-//     JWT.verify(authHeader, process.env.SECRET , (err) => {
-//       if (err) {
-//         return res.sendStatus(403);
-//       }
-//       next();
-//     });
-//   } else {
-//     res.sendStatus(401);
-//   }
-// };
-
-
-exports.verifyToken = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-
-  if (authHeader) {
-    // Extract the token from the "Bearer <token>" format
-    const token = authHeader.split(" ")[1];
-
-    // Verify the token
-    JWT.verify(token, process.env.SECRET, (err) => {
-      if (err) {
-        return res.sendStatus(403);
-      }
-      next();
-    });
-  } else {
-    res.sendStatus(401);
-  }
-};
+//logout -> we are deleting tokens manually
+//jwt tokens are stateless,      //we have value 'token' make it null and set expirary now
+exports.logout = bigPromise(async (req, res, next) => {
+  res.cookie("token", null, {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+  });
+  res.status(200).json({
+    success: true,
+    message: "Logout success",
+  });
+});
