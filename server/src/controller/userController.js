@@ -12,11 +12,15 @@ const bcyrpt = require("bcrypt");
 
 
 //_______signup controller_______ 
-// exports.signup=BigPromise(async()=>{})
+// exports.signup=bigPromise(async()=>{})
 exports.signup=bigPromise(async(req,res,next)=>{
     const {name, email, password} =req.body;
     if(!email || !password || !name){
         return next(new CustomError("Please provide email, name & password",400));
+    }
+    const userExists=await UsersModel.findOne({email});
+    if(userExists){
+        return next(new CustomError("User already exists",400));
     }
     const user=await UsersModel.create({name,email,password });
     cookieToken(user,res); //create cookie and send response after successful signup
@@ -26,7 +30,7 @@ exports.signup=bigPromise(async(req,res,next)=>{
 //--------------------------------------------------------------------------------------------------------------------------------
 
 //_____Login/signIn controller_______
-//login 
+
 exports.login=bigPromise(async(req,res,next)=>{
   const{email,password}=req.body;
   if(!email || !password){

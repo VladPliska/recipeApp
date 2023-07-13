@@ -1,15 +1,18 @@
 const express=require("express");
 const router=express.Router();
+const {isLoggedIn}=require("../middlewares/isLoggedIn");
 
-const {verifyToken} =require("../controller/userController.js");
-const {getAllRecipes, createRecipe, getRecipeById, saveRecipes, getIdOfSavedRecipe, getSavedRecipes }=require("../controller/recipeController.js");
+const {getAllRecipes, createRecipe, getRecipeById, saveRecipes, getSavedRecipeById, getSavedRecipes, deleteRecipe, updateRecipe }=require("../controller/recipeController.js");
 
-// router.get("/", getAllRecipes);  //homePage router to show all recipes
-// router.post("/", verifyToken ,createRecipe);
-// router.get("/:recipeId",getRecipeById);
-// router.put("/", saveRecipes);
-// router.get("/savedRecipes/ids/:userId",getIdOfSavedRecipe);
-// router.get("/savedRecipes/:userId", getSavedRecipes);
+
+router.route("/").get(isLoggedIn, getAllRecipes);
+router.route("/create").post(isLoggedIn, createRecipe);
+router.route("/:recipeId").get(isLoggedIn, getRecipeById);
+router.route("/save").put(isLoggedIn, saveRecipes); 
+router.route("/savedRecipes/ids/:userId").get(isLoggedIn, getSavedRecipeById); 
+router.route("/savedRecipes/:userId").get(isLoggedIn, getSavedRecipes); 
+router.route("/delete/:recipeId").delete(isLoggedIn, deleteRecipe);
+router.route("/update/:recipeId").put(isLoggedIn, updateRecipe);
 
 
 module.exports =router;

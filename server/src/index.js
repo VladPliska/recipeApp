@@ -25,7 +25,6 @@ app.use(cors()); //to allow cross origin requests
 app.use(express.json()); // Parse JSON bodies for API endpoints
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies for HTML form submissions
 app.use(bodyParser.json()); // Parse JSON bodies for API endpoints
-// app.use(bodyParser.urlencoded({ extended: true })); // for old versions of express
 app.use(cookieParser());  
 app.use(fileUpload({ useTempFiles: true }));
 app.use(morgan("tiny"));
