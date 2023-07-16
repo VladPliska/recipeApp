@@ -45,7 +45,7 @@ Please refer to the API documentation using Swagger UI for more details on reque
 
 
 ## Image Gallery
-Here are some of the tested routes images:
+Here are some of the routes images:
 
 | Image | Description |
 |-------|-------------|
