@@ -29,6 +29,19 @@ Create a .env file in the root directory and add the following variables:
 The application will start running on http://localhost:${port}.
 Please refer to the API documentation using Swagger UI for more details on request and response formats.
 
+
+
+## Image Gallery
+
+| Image | Description |
+|-------|-------------|
+| <img src="https://github.com/nishant219/recipeApp/assets/72811435/da7e8e69-a52a-41b7-92a8-5cceb8771332" alt="Image 1" width="300" /> | This is the create route image |
+| <img src="https://github.com/nishant219/recipeApp/assets/72811435/a6aafdfe-8781-4ec7-a7db-85fa68902539" alt="Image 2" width="300" /> | This is the save recipe route image |
+| <img src="https://github.com/nishant219/recipeApp/assets/72811435/0536a7f7-8d56-41c1-bd43-56bec91aafb1" alt="Image 3" width="300" /> | This is the delete recipe by ID route image |
+
+
+
+
 ## Routes
 - `POST /signup`: Create a new user account.
 - `POST /login`: Log in to an existing user account.
