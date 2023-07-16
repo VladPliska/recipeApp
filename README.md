@@ -31,17 +31,6 @@ Please refer to the API documentation using Swagger UI for more details on reque
 
 
 
-## Image Gallery
-
-| Image | Description |
-|-------|-------------|
-| <img src="https://github.com/nishant219/recipeApp/assets/72811435/da7e8e69-a52a-41b7-92a8-5cceb8771332" alt="Image 1" width="300" /> | This is the create route image |
-| <img src="https://github.com/nishant219/recipeApp/assets/72811435/a6aafdfe-8781-4ec7-a7db-85fa68902539" alt="Image 2" width="300" /> | This is the save recipe route image |
-| <img src="https://github.com/nishant219/recipeApp/assets/72811435/0536a7f7-8d56-41c1-bd43-56bec91aafb1" alt="Image 3" width="300" /> | This is the delete recipe by ID route image |
-
-
-
-
 ## Routes
 - `POST /signup`: Create a new user account.
 - `POST /login`: Log in to an existing user account.
@@ -52,6 +41,20 @@ Please refer to the API documentation using Swagger UI for more details on reque
 - `GET /savedRecipes/:userId`: Get saved recipes for a user.
 - `DELETE /delete/:recipeId`: Delete a recipe by its ID.
 - `PUT /update/:recipeId`: Update a recipe by its ID.
+
+
+
+## Image Gallery
+Here are some of the tested routes images:
+
+| Image | Description |
+|-------|-------------|
+| <img src="https://github.com/nishant219/recipeApp/assets/72811435/da7e8e69-a52a-41b7-92a8-5cceb8771332" alt="Image 1" height="100" width="300" /> | This is the create route image |
+| <img src="https://github.com/nishant219/recipeApp/assets/72811435/a6aafdfe-8781-4ec7-a7db-85fa68902539" alt="Image 2" height="100" width="300" /> | This is the save recipe route image |
+| <img src="https://github.com/nishant219/recipeApp/assets/72811435/0536a7f7-8d56-41c1-bd43-56bec91aafb1" alt="Image 3" height="100" width="300" /> | This is the delete recipe by ID route image |
+| <img src="https://github.com/nishant219/recipeApp/assets/72811435/fee7d95e-76ae-4fca-b346-71c753c0162d" alt="Image 1" height="100" width="300" /> | This is the get all recipe route image |
+
+
 
 
 ## Contributing
