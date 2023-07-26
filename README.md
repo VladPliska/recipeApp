@@ -30,6 +30,18 @@ The application will start running on http://localhost:${port}.
 Please refer to the API documentation using Swagger UI for more details on request and response formats.
 
 
+## Routes
+- `POST /signup`: Create a new user account.
+- `POST /login`: Log in to an existing user account.
+- `GET /logout`: Log out the current user.
+- `GET /:recipeId`: Get a recipe by its ID.
+- `PUT /save`: Save a recipe.
+- `GET /savedRecipes/ids/:userId`: Get saved recipe IDs for a user.
+- `GET /savedRecipes/:userId`: Get saved recipes for a user.
+- `DELETE /delete/:recipeId`: Delete a recipe by its ID.
+- `PUT /update/:recipeId`: Update a recipe by its ID.
+
+
 
 ## Image Gallery
 Here are some of the routes images:
@@ -41,18 +53,6 @@ Here are some of the routes images:
 | <img src="https://github.com/nishant219/recipeApp/assets/72811435/0536a7f7-8d56-41c1-bd43-56bec91aafb1" alt="Image 3" height="100" width="300" /> | This is the delete recipe by ID route image |
 | <img src="https://github.com/nishant219/recipeApp/assets/72811435/fee7d95e-76ae-4fca-b346-71c753c0162d" alt="Image 1" height="100" width="300" /> | This is the get all recipe route image |
 
-
-
-## Routes
-- `POST /signup`: Create a new user account.
-- `POST /login`: Log in to an existing user account.
-- `GET /logout`: Log out the current user.
-- `GET /:recipeId`: Get a recipe by its ID.
-- `PUT /save`: Save a recipe.
-- `GET /savedRecipes/ids/:userId`: Get saved recipe IDs for a user.
-- `GET /savedRecipes/:userId`: Get saved recipes for a user.
-- `DELETE /delete/:recipeId`: Delete a recipe by its ID.
-- `PUT /update/:recipeId`: Update a recipe by its ID.
 
 
 
