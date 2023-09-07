@@ -10,7 +10,6 @@ const bcyrpt = require("bcrypt");
 
 //--------------------------------------------------------------------------------------------------------------------------------
 
-
 //_______signup controller_______ 
 // exports.signup=bigPromise(async()=>{})
 exports.signup=bigPromise(async(req,res,next)=>{
