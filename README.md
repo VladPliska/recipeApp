@@ -29,6 +29,10 @@ Create a .env file in the root directory and add the following variables:
 The application will start running on http://localhost:${port}.
 Please refer to the API documentation using Swagger UI for more details on request and response formats.
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3537ec7196bd9d6c13ca9dc43718f2f3525681d5
 ## Routes
 - `POST /signup`: Create a new user account.
 - `POST /login`: Log in to an existing user account.
@@ -41,6 +45,25 @@ Please refer to the API documentation using Swagger UI for more details on reque
 - `PUT /update/:recipeId`: Update a recipe by its ID.
 
 
+<<<<<<< HEAD
+=======
+
+## Image Gallery
+Here are some of the routes images:
+
+| Image | Description |
+|-------|-------------|
+| <img src="https://github.com/nishant219/recipeApp/assets/72811435/da7e8e69-a52a-41b7-92a8-5cceb8771332" alt="Image 1" height="100" width="300" /> | This is the create route image |
+| <img src="https://github.com/nishant219/recipeApp/assets/72811435/a6aafdfe-8781-4ec7-a7db-85fa68902539" alt="Image 2" height="100" width="300" /> | This is the save recipe route image |
+| <img src="https://github.com/nishant219/recipeApp/assets/72811435/0536a7f7-8d56-41c1-bd43-56bec91aafb1" alt="Image 3" height="100" width="300" /> | This is the delete recipe by ID route image |
+| <img src="https://github.com/nishant219/recipeApp/assets/72811435/fee7d95e-76ae-4fca-b346-71c753c0162d" alt="Image 1" height="100" width="300" /> | This is the get all recipe route image |
+
+
+
+
+
+
+>>>>>>> 3537ec7196bd9d6c13ca9dc43718f2f3525681d5
 ## Contributing
 Contributions and feedback are welcome! If you find any issues or have suggestions for improvements, please feel free to submit a pull request or open an issue. Please follow the contribution guidelines outlined.
 
