@@ -1,7 +1,6 @@
 import React from 'react';
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
-
 //import components
 import TopNavBar from './components/TopNavBar';
 import Footer from './components/Footer';
@@ -14,6 +13,7 @@ import Help from './pages/Help';
 import CreateRecipe from './pages/CreateRecipe';
 import SavedRecipes from './pages/SavedRecipes';
 import UpdateRecipe from './pages/UpdateRecipe';
+import Logout from './pages/Logout';
 
 
 function App() {
@@ -27,6 +27,7 @@ function App() {
             <Routes>
                 <Route path="/"               element={<Home />}           />
                 <Route path="/login"          element={<Login />}           />
+                <Route path="/logout"          element={<Logout />}           />
                 <Route path="/register"       element={<Register />}           />
                 <Route path="/createRecipe"   element={<CreateRecipe />}  />
                 <Route path="/savedRecipes"   element={<SavedRecipes />}   />

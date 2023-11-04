@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { BsFillPersonFill } from 'react-icons/bs';
 
@@ -12,13 +13,13 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/v1/register', {
+      const response = await axios.post('http://localhost:7000/api/v1/signup', {
         name,
         email,
         password,
       });
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         setIsRegistered(true);
         console.log('Registered successfully');
       } else {
@@ -30,7 +31,9 @@ const Register = () => {
   };
 
   if (isRegistered) {
-    return <p className="text-green-500 text-center text-2xl mt-4">You are registered!</p>;
+    //return <p className="text-green-500 text-center text-2xl mt-4">You are registered!</p>;
+    //redirect to login page
+    return <Navigate to="/login" />;
   }
 
   return (

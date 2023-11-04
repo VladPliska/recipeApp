@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
@@ -12,7 +13,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('/api/v1/login', {
+      const response = await axios.post('http://localhost:7000/api/v1/login', {
         email,
         password,
       });
@@ -30,7 +31,7 @@ const Login = () => {
   };
 
   if (isLoggedIn) {
-    return <p className="text-green-500 text-center text-2xl mt-4">You are logged in!</p>;
+    return <Navigate to="/" />;
   }
 
   return (

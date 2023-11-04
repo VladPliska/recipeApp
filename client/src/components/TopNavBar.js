@@ -1,25 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  AiOutlineMenu,
-  AiOutlineSearch,
-  AiOutlineClose,
-} from 'react-icons/ai';
-import {
-  BsFillPersonFill,
-  BsPerson,
-  BsSearch,
-} from 'react-icons/bs';
-import {
-  FaUtensils,
-  FaHome,
-  FaSearch,
-} from 'react-icons/fa';
+import axios from 'axios';
+import { AiOutlineMenu, AiOutlineSearch, AiOutlineClose } from 'react-icons/ai';
+import { BsFillPersonFill, BsPerson, BsSearch } from 'react-icons/bs';
+import { FaUtensils, FaHome, FaSearch } from 'react-icons/fa';
 import { IoChatboxEllipsesOutline } from 'react-icons/io5';
 import { AiOutlineBook, AiOutlineReload } from 'react-icons/ai';
 
+
 const TopNavBar = () => {
   const [show, setShow] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
+  useEffect(()=>{
+    const storedIsLoggedIn = localStorage.getItem('isLoggedIn');
+    if (storedIsLoggedIn === 'true') {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    } 
+  },[]);
+
+  const handleLogout =()=>{
+    console.log('handleLogout called');
+    axios.get('http://localhost:7000/api/v1/logout')
+    .then((res)=>{
+      if(res.status===200){
+        localStorage.setItem('isLoggedIn', 'false');
+        setLoggedIn(false);
+        console.log('Logged out successfully')
+      }else{
+        console.log('Logout failed', res.status)
+      }
+    })
+    .catch((err)=>{
+      console.error('Error occurred:', err)
+    })
+
+  }
 
   return (
     <>
@@ -50,11 +68,37 @@ const TopNavBar = () => {
             <BsSearch size={20} className='text-green-500 cursor-pointer' />
           </Link>
         </div>
-        <Link to='/login'>
-          <button className='bg-green-400 text-black hidden md:flex items-center py-2 rounded-full'>
-            <BsFillPersonFill size={25} /> Login/SignUp
+
+        {/* <Link to={isLoggedIn ? "/logout" : "/login"}>
+          <button
+            className='bg-green-400 text-black hidden md:flex items-center py-2 rounded-full'
+            onClick={isLoggedIn ? handleLogout : null}
+          >
+            <BsFillPersonFill size={25} /> {isLoggedIn ? "Logout" : "Login/SignUp"}
           </button>
-        </Link>
+        </Link> */}
+
+
+        {isLoggedIn ? (
+          <Link to="/logout">
+            <button
+              className='bg-green-400 text-black hidden md:flex items-center py-2 rounded-full'
+              onClick={() => {
+                handleLogout();
+              }}
+            >
+              <BsFillPersonFill size={25} /> {"Logout"}
+            </button>
+          </Link>
+        ) : (
+          <Link to="/login">
+            <button className='bg-green-400 text-black hidden md:flex items-center py-2 rounded-full'>
+              <BsFillPersonFill size={25} /> {"Login/SignUp"}
+            </button>
+          </Link>
+        )}
+
+
         {show ? (
           <div
             className='bg-black/60 fixed w-full h-screen z-10 top-0 left-0'
@@ -81,7 +125,7 @@ const TopNavBar = () => {
           <nav>
             <ul className='flex flex-col p-4 text-gray-900'>
               <NavItem to='/' icon={<FaHome size={25} />} text='Home' />
-              <NavItem to='/login' icon={<BsPerson size={25} />} text='User Profile' />
+              {/* <NavItem to='/login' icon={<BsPerson size={25} />} text='User Profile' /> */}
               <NavItem to='/createRecipe' icon={<FaUtensils size={25} />} text='Create Recipe' />
               <NavItem to='/updateRecipe' icon={<AiOutlineReload size={25} />} text='Update Recipe' />
               <NavItem to='/savedRecipes' icon={<AiOutlineBook size={25} />} text='Saved Recipes' />

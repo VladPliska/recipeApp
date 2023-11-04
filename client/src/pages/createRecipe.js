@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios'; // You'll need to have axios or another HTTP library installed
+import axios from 'axios';
 
 const CreateRecipe = () => {
   const [formData, setFormData] = useState({
@@ -15,19 +15,26 @@ const CreateRecipe = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Send a POST request to your API to create the recipe
-    axios.post('/api/recipes/create', formData)
-      .then((response) => {
-        // Handle success (e.g., redirect to the created recipe's page)
-        console.log('Recipe created:', response.data);
-      })
-      .catch((error) => {
-        // Handle errors (e.g., display an error message)
-        console.error('Error creating recipe:', error);
+    try {
+      const response = await axios.post('http://localhost:7000/api/v1/create', {
+        name: formData.name,
+        ingredients: formData.ingredients.split(',').map((ingredient) => ingredient.trim()),
+        instructions: formData.instructions.split(',').map((instruction) => instruction.trim()),
+        cookingTime: parseInt(formData.cookingTime, 10),
+        imageUrl: formData.imageUrl,
       });
+
+      if (response.status === 200) {
+        console.log('Recipe created successfully');
+      } else {
+        console.log('Recipe creation failed');
+      }
+    } catch (error) {
+      console.error('Error occurred:', error);
+    }
   };
 
   return (
@@ -98,7 +105,7 @@ const CreateRecipe = () => {
           <div className="text-center">
             <button
               type="submit"
-              className="bg-orange-700 text-white px-6 py-2 rounded-full hover:bg-orange-600 transition duration-300"
+              className="bg-orange-700 text-white px-6 py-2 rounded-full hover-bg-orange-600 transition duration-300"
             >
               Create Recipe
             </button>
