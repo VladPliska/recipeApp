@@ -21,7 +21,14 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 //middlewares
-app.use(cors()); //to allow cross origin requests
+//to allow cross origin requests
+app.use(
+    cors({
+      origin: ["http://localhost:7000", "http://localhost:3000", 'https://recipe-app-server-five.vercel.app', "https://recipe-server-kidx.onrender.com"],
+      methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+      credentials: true,
+    })
+  );
 app.use(express.json()); // Parse JSON bodies for API endpoints
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies for HTML form submissions
 app.use(bodyParser.json()); // Parse JSON bodies for API endpoints

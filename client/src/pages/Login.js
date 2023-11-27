@@ -19,7 +19,7 @@ const Login = () => {
     setSuccess(null);
 
     try {
-      const response = await axios.post('http://localhost:7000/api/v1/login', {
+      const response = await axios.post('https://recipe-server-kidx.onrender.com/api/v1/login', {
         email,
         password,
       },

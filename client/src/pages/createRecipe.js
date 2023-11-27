@@ -42,7 +42,7 @@ const CreateRecipe = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:7000/api/v1/create',
+        'https://recipe-server-kidx.onrender.com/api/v1/create',
         {
           name: formData.name,
           ingredients: ingredients,

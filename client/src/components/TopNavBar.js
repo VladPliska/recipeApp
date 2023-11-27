@@ -31,7 +31,7 @@ const TopNavBar = () => {
 
   // const handleLogout =()=>{
   //   console.log('handleLogout called');
-  //   axios.get('http://localhost:7000/api/v1/logout')
+  //   axios.get('https://recipe-server-kidx.onrender.com/api/v1/logout')
   //   .then((res)=>{
   //     if(res.status===200){
   //       localStorage.setItem('isLoggedIn', 'false');
