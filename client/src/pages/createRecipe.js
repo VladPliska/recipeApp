@@ -15,18 +15,28 @@ const CreateRecipe = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    if (!formData.name || !formData.cookingTime || !formData.imageUrl) {
+      alert('Please fill out all required fields');
+      return;
+    }
 
+    const ingredients = formData.ingredients ? formData.ingredients.split(',').map((ingredient) => ingredient.trim()) : [];
+    const instructions = formData.instructions ? formData.instructions.split(',').map((instruction) => instruction.trim()) : [];
+  
     try {
       const response = await axios.post('http://localhost:7000/api/v1/create', {
         name: formData.name,
-        ingredients: formData.ingredients.split(',').map((ingredient) => ingredient.trim()),
-        instructions: formData.instructions.split(',').map((instruction) => instruction.trim()),
-        cookingTime: parseInt(formData.cookingTime, 10),
+        ingredients: ingredients,
+        instructions: instructions,
+        cookingTime: formData.cookingTime,
         imageUrl: formData.imageUrl,
       });
-
+  
       if (response.status === 200) {
         console.log('Recipe created successfully');
       } else {
@@ -34,8 +44,16 @@ const CreateRecipe = () => {
       }
     } catch (error) {
       console.error('Error occurred:', error);
+  
+      if (error.response) {
+        console.error('Server returned an error with status:', error.response.status);
+        console.error('Error data:', error.response.data);
+      }
     }
   };
+    
+  
+
 
   return (
     <div className="create-recipe-page">
@@ -105,7 +123,7 @@ const CreateRecipe = () => {
           <div className="text-center">
             <button
               type="submit"
-              className="bg-orange-700 text-white px-6 py-2 rounded-full hover-bg-orange-600 transition duration-300"
+              className="bg-orange-700 text-white px-6 py-2 rounded-full hover:bg-orange-600 transition duration-300"
             >
               Create Recipe
             </button>

@@ -7,7 +7,7 @@ const SavedRecipes = () => {
 
   useEffect(() => {
     // Fetch the user's saved recipes from the server
-    axios.get(`/api/user/${userId}/savedRecipes`)
+    axios.get(`http://localhost:7000/api/v1/${userId}`)
       .then((response) => {
         setSavedRecipes(response.data.savedRecipes);
       })

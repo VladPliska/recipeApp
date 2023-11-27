@@ -20,7 +20,7 @@ const UpdateRecipe = () => {
 
     // Send a PUT request to update the recipe using the recipe ID
     const recipeId = 'recipe_id'; // Replace with the actual recipe ID to update
-    axios.put(`/api/recipes/update/${recipeId}`, formData)
+    axios.put(`http://localhost:7000/api/v1/update/${recipeId}`, formData)
       .then((response) => {
         // Handle success (e.g., redirect to the updated recipe's page)
         console.log('Recipe updated:', response.data);
