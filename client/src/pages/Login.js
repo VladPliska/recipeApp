@@ -3,30 +3,48 @@ import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+    setSuccess(null);
 
     try {
       const response = await axios.post('http://localhost:7000/api/v1/login', {
         email,
         password,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
 
       if (response.status === 200) {
         setIsLoggedIn(true);
-        localStorage.setItem('isLoggedIn', 'true');
+        const data=await response.data;
+        login({
+          user: data.user,
+          token: data.token
+        });
+        setSuccess("login Done");
+        // <Navigate to="/" />
         console.log('Logged in successfully');
       } else {
         console.log('Login failed');
       }
     } catch (error) {
       console.error('Error occurred:', error);
+      setError("Error while login user");
     }
   };
 

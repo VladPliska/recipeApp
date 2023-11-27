@@ -8,25 +8,35 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isRegistered, setIsRegistered] = useState(false);
+  const [error, setError]=useState(null);
+  const [success, setSuccess]= useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+    setSuccess(null);
 
     try {
       const response = await axios.post('http://localhost:7000/api/v1/signup', {
         name,
         email,
         password,
+      },{
+        headers: {
+          'Content-Type': 'application/json',
+        }
       });
 
       if (response.status === 200) {
         setIsRegistered(true);
+        setSuccess('Registration successful!'); 
         console.log('Registered successfully');
       } else {
         console.log('Registration failed');
       }
     } catch (error) {
       console.error('Error occurred:', error);
+      setError("Error while onboarding user");
     }
   };
 

@@ -1,43 +1,51 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AiOutlineMenu, AiOutlineSearch, AiOutlineClose } from 'react-icons/ai';
 import { BsFillPersonFill, BsPerson, BsSearch } from 'react-icons/bs';
 import { FaUtensils, FaHome, FaSearch } from 'react-icons/fa';
 import { IoChatboxEllipsesOutline } from 'react-icons/io5';
 import { AiOutlineBook, AiOutlineReload } from 'react-icons/ai';
+import { useAuth } from '../context/AuthContext';
 
 
 const TopNavBar = () => {
   const [show, setShow] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const navigate=useNavigate();
+  const {user, logout}=useAuth();
 
-  useEffect(()=>{
-    const storedIsLoggedIn = localStorage.getItem('isLoggedIn');
-    if (storedIsLoggedIn === 'true') {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-    } 
-  },[]);
+  const handleLogout = () => {
+    logout();
+    navigate('/login'); 
+  };
 
-  const handleLogout =()=>{
-    console.log('handleLogout called');
-    axios.get('http://localhost:7000/api/v1/logout')
-    .then((res)=>{
-      if(res.status===200){
-        localStorage.setItem('isLoggedIn', 'false');
-        setLoggedIn(false);
-        console.log('Logged out successfully')
-      }else{
-        console.log('Logout failed', res.status)
-      }
-    })
-    .catch((err)=>{
-      console.error('Error occurred:', err)
-    })
+  // useEffect(()=>{
+  //   const storedIsLoggedIn = localStorage.getItem('isLoggedIn');
+  //   if (storedIsLoggedIn === 'true') {
+  //     setLoggedIn(true);
+  //   } else {
+  //     setLoggedIn(false);
+  //   } 
+  // },[]);
 
-  }
+  // const handleLogout =()=>{
+  //   console.log('handleLogout called');
+  //   axios.get('http://localhost:7000/api/v1/logout')
+  //   .then((res)=>{
+  //     if(res.status===200){
+  //       localStorage.setItem('isLoggedIn', 'false');
+  //       setLoggedIn(false);
+  //       console.log('Logged out successfully')
+  //     }else{
+  //       console.log('Logout failed', res.status)
+  //     }
+  //   })
+  //   .catch((err)=>{
+  //     console.error('Error occurred:', err)
+  //   })
+
+  // }
 
   return (
     <>
@@ -57,6 +65,7 @@ const TopNavBar = () => {
                 <p className='bg-orange-700 text-white rounded-full p-2 text-bold'>Chef</p> 
             </div>
         </div>
+       
         <div className='bg-gray-300 rounded-full flex items-center px-2 w-[200px] sm:w-[400px] lg:w-[500px]'>
           <AiOutlineSearch size={25} className='mr-2' />
           <input
@@ -79,7 +88,7 @@ const TopNavBar = () => {
         </Link> */}
 
 
-        {isLoggedIn ? (
+        {user ? (
           <Link to="/logout">
             <button
               className='bg-green-400 text-black hidden md:flex items-center py-2 rounded-full'

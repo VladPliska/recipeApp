@@ -15,9 +15,13 @@ import SavedRecipes from './pages/SavedRecipes';
 import UpdateRecipe from './pages/UpdateRecipe';
 import Logout from './pages/Logout';
 
+//context
+import { AuthProvider } from './context/AuthContext';
+
 
 function App() {
   return (
+    <AuthProvider>
     <div className="App">
 
     <Router>
@@ -40,9 +44,8 @@ function App() {
 
     </Router>
 
-
-
     </div>
+    </AuthProvider>
   );
 }
  
