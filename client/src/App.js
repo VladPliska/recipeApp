@@ -14,6 +14,7 @@ import CreateRecipe from './pages/CreateRecipe';
 import SavedRecipes from './pages/SavedRecipes';
 import UpdateRecipe from './pages/UpdateRecipe';
 import Logout from './pages/Logout';
+import GetAllRecipes from './pages/AllRecipes';
 
 //context
 import { AuthProvider } from './context/AuthContext';
@@ -37,7 +38,7 @@ function App() {
                 <Route path="/savedRecipes"   element={<SavedRecipes />}   />
                 <Route path="/updateRecipe"   element={<UpdateRecipe />}   />
                 <Route path="/help"           element={<Help />}           />
-
+                <Route path="/all"            element={<GetAllRecipes />}           />
             </Routes>
       
       <Footer />

@@ -5,7 +5,7 @@ const {isLoggedIn}=require("../middlewares/isLoggedIn");
 const {getAllRecipes, createRecipe, getRecipeById, saveRecipes, getSavedRecipeById, getSavedRecipes, deleteRecipe, updateRecipe }=require("../controller/recipeController.js");
 
 
-router.route("/").get(isLoggedIn, getAllRecipes);
+router.route("/all").get(isLoggedIn, getAllRecipes);
 router.route("/create").post(isLoggedIn, createRecipe);
 router.route("/:recipeId").get(isLoggedIn, getRecipeById);
 router.route("/save").put(isLoggedIn, saveRecipes); 

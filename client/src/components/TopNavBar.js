@@ -136,7 +136,7 @@ const TopNavBar = () => {
               <NavItem to='/' icon={<FaHome size={25} />} text='Home' />
               {/* <NavItem to='/login' icon={<BsPerson size={25} />} text='User Profile' /> */}
               <NavItem to='/createRecipe' icon={<FaUtensils size={25} />} text='Create Recipe' />
-              <NavItem to='/updateRecipe' icon={<AiOutlineReload size={25} />} text='Update Recipe' />
+              <NavItem to='/all' icon={<AiOutlineReload size={25} />} text='Get All Recipe' />
               <NavItem to='/savedRecipes' icon={<AiOutlineBook size={25} />} text='Saved Recipes' />
               <NavItem to='/help' icon={<IoChatboxEllipsesOutline size={25} />} text='Help' />
             </ul>

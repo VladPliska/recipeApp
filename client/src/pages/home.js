@@ -4,13 +4,14 @@ import Delivery from '../components/Delivery';
 import FeaturedSection from '../components/FeaturedSection';
 //import Meal from '../components/Meal';
 import TopPicks from '../components/TopPicks';
-
+import AllRecipes from './AllRecipes';
 
 const Home = () => {
   return (
     <>
         <FeaturedSection />
         <Delivery />
+        <AllRecipes />
         <TopPicks />
         {/* <Meal /> */}
         <Categories />

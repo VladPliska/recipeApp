@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
-import axios from 'axios'; // You'll need to have axios or another HTTP library installed
+// UpdateRecipe.js
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-const UpdateRecipe = () => {
+const UpdateRecipe = ({ recipe }) => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
   const [formData, setFormData] = useState({
-    name: '',
-    ingredients: '',
-    instructions: '',
-    cookingTime: '',
-    imageUrl: '',
+    name: recipe.name,
+    ingredients: recipe.ingredients,
+    instructions: recipe.instructions,
+    cookingTime: recipe.cookingTime,
+    imageUrl: recipe.imageUrl,
   });
 
   const handleChange = (e) => {
@@ -15,20 +21,57 @@ const UpdateRecipe = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const userId = user ? user._id : null;
+  const authToken = user ? user.token : null;
 
-    // Send a PUT request to update the recipe using the recipe ID
-    const recipeId = 'recipe_id'; // Replace with the actual recipe ID to update
-    axios.put(`http://localhost:7000/api/v1/update/${recipeId}`, formData)
-      .then((response) => {
-        // Handle success (e.g., redirect to the updated recipe's page)
-        console.log('Recipe updated:', response.data);
-      })
-      .catch((error) => {
-        // Handle errors (e.g., display an error message)
-        console.error('Error updating recipe:', error);
-      });
+  // useEffect(() => {
+  //   // Fetch the recipe details based on the provided recipeId
+  //   const fetchRecipeDetails = async () => {
+  //     try {
+  //       const response = await axios.get(`http://localhost:7000/api/v1/${recipe._id}`, {
+  //         headers: {
+  //           Authorization: `Bearer ${user.token}`,
+  //         },
+  //       });
+
+  //       const recipeDetails = response.data;
+  //       setFormData({
+  //         name: recipeDetails.name,
+  //         ingredients: recipeDetails.ingredients,
+  //         instructions: recipeDetails.instructions,
+  //         cookingTime: recipeDetails.cookingTime,
+  //         imageUrl: recipeDetails.imageUrl,
+  //       });
+  //     } catch (error) {
+  //       console.error('Error fetching recipe details:', error);
+  //     }
+  //   };
+
+  //   fetchRecipeDetails();
+  // }, [recipe._id, user.token]);
+
+
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(
+        `http://localhost:7000/api/v1/update/${recipe._id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      console.log('Recipe updated:', response.data);      
+      navigate('/all');
+    } catch (error) {
+      console.error('Error updating recipe:', error);
+    }
   };
 
   return (
@@ -103,6 +146,13 @@ const UpdateRecipe = () => {
             >
               Update Recipe
             </button>
+            {/* <button
+              type="button"
+              onClick={onCancelUpdate}
+              className="bg-gray-500 text-white px-6 py-2 rounded-full hover:bg-gray-400 transition duration-300 ml-4"
+            >
+              Cancel
+            </button> */}
           </div>
         </form>
       </div>
