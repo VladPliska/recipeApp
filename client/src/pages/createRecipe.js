@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {useNavigate} from "react-router-dom";
+import {useAuth} from "../context/AuthContext";
 
 const CreateRecipe = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     name: '',
     ingredients: '',
@@ -15,45 +19,60 @@ const CreateRecipe = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-
+  const userId = user ? user._id : '';
+  const authToken = user?.token || null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!formData.name || !formData.cookingTime || !formData.imageUrl) {
       alert('Please fill out all required fields');
       return;
     }
 
-    const ingredients = formData.ingredients ? formData.ingredients.split(',').map((ingredient) => ingredient.trim()) : [];
-    const instructions = formData.instructions ? formData.instructions.split(',').map((instruction) => instruction.trim()) : [];
+    const ingredients = formData.ingredients
+      ? formData.ingredients.split(',').map((ingredient) => ingredient.trim())
+      : [];
+    // const instructions = formData.instructions
+    //   ? formData.instructions.split(',').map((instruction) => instruction.trim())
+    //   : [];
+
+    const instructions = formData.instructions ? formData.instructions.trim() : '';
   
+
     try {
-      const response = await axios.post('http://localhost:7000/api/v1/create', {
-        name: formData.name,
-        ingredients: ingredients,
-        instructions: instructions,
-        cookingTime: formData.cookingTime,
-        imageUrl: formData.imageUrl,
-      });
-  
-      if (response.status === 200) {
+      const response = await axios.post(
+        'http://localhost:7000/api/v1/create',
+        {
+          name: formData.name,
+          ingredients: ingredients,
+          instructions: instructions,
+          cookingTime: formData.cookingTime,
+          imageUrl: formData.imageUrl,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (response.status === 201) {
         console.log('Recipe created successfully');
+        navigate('/'); // Assuming you have a route named '/recipe-listing' for displaying the recipe list
       } else {
         console.log('Recipe creation failed');
       }
     } catch (error) {
       console.error('Error occurred:', error);
-  
+
       if (error.response) {
         console.error('Server returned an error with status:', error.response.status);
         console.error('Error data:', error.response.data);
       }
     }
   };
-    
-  
-
 
   return (
     <div className="create-recipe-page">

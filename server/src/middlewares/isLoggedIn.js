@@ -7,7 +7,7 @@ const JWT = require("jsonwebtoken");
 exports.isLoggedIn = bigPromise(async(req, res, next)=>{
 
     //extract the token
-    const token= req.cookies.token || req.header("Authorization").replace("Bearer", "");
+    let token = req.cookies.token || (req.headers.authorization && req.headers.authorization.replace("Bearer ", ""));
     
     if(!token){
        return next(new CustomError(`first login to access this page`, 401))

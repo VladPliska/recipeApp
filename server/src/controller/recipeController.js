@@ -19,9 +19,16 @@ exports.getAllRecipes=bigPromise(async(req,res,next)=>{
 // //------------------------------------------------------------------------------------
 
 exports.createRecipe=bigPromise(async(req,res,next)=>{
-    const {name,ingredients,instructions,imageUrl,cookingTime,userOwner} =req.body;
+    const {name,ingredients,instructions,imageUrl,cookingTime} =req.body;
+    const userObjID=req.user._id;
+    const userOwner=userObjID.toString();
 
-    if(!name || !ingredients || !instructions || !cookingTime || !userOwner){
+    //console.log("user ki id: ",userOwner);
+
+    if(!userOwner){
+        return next(new CustomError("Please provide user id",400));
+    }
+    if(!name || !ingredients || !instructions || !cookingTime ){
         return next(new CustomError("Please provide all the fields",400));
     }
 
@@ -48,7 +55,7 @@ exports.createRecipe=bigPromise(async(req,res,next)=>{
             ingredients: result.ingredients,
             instructions: result.instructions,
             userOwner: result.userOwner,
-            _id: result._id
+            _id: result._id.toString(),
           },
     });
 })
